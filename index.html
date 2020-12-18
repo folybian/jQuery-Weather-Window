@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta description="">
+    <meta keywords="">
+    <title>Your title here</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <nav id="nav">
+        <span>jQuery Weather-Window</span>
+        <span id="infos">&#8505;</span>
+    </nav>
+
+    <div id="nav2">
+        <span>You can either click on the upper / lower part of the Window or click on the frame to change the layout of it.</span>
+    </div>
+
+    <div id="main">
+
+        <div id="city">
+            <img class="city" src="Images/parts-0.png">
+            <img class="city" src="Images/parts-1.png">
+        </div>
+
+        <div id="frame">
+            <img id="bg-img" src="Images/frames-reduced.png">
+        </div>
+
+    </div>
+
+    <div id="center">
+        <button id="btn2">MIX</button>
+        <button onClick="reset()">RESET</button>
+    </div>
+
+    <script>
+        
+        var x = 375;
+        var framewidth = 520;
+        var y = [0, 0, 0];
+        
+        $("#nav2").hide();
+        
+        // info - button
+        $("#infos").click(function() {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+
+                $("#nav2").toggle(300);
+                $("#information").animate({
+                    marginLeft: "0px"
+                }, 250);
+
+            } else {
+
+                $("#information").animate({
+                    marginLeft: "" + -150 + "px"
+                }, 650);
+                $("#nav2").toggle(150);
+
+            }
+            $(this).data("clicks", !clicks);
+        });
+        
+        // main movement of the 2 parts of the city
+        $(".city").click(function() {
+
+            var t = $(this).index();
+
+            y[t]++;
+
+            if (y[t] > 3) {
+                y[t] = 0;
+            }
+
+            $(this).animate({
+                marginLeft: "" + -y[t] * x + "px"
+            });
+        });
+        
+        // main movement of the frame
+        $("#frame").click(function() {
+
+            y[2]++;
+
+            if (y[2] > 4) {
+                y[2] = 0;
+            }
+
+            $("#bg-img").animate({
+                marginLeft: "" + -y[2] * framewidth + "px"
+            });
+        });
+        
+        // movement for random button
+        $("#btn2").click(function() {
+
+            $(".city").each(function(index) {
+                y[index] = random();
+
+                $(this).animate({
+                    marginLeft: "" + -y[index] * x + "px"
+                });
+            });
+
+        });
+
+        function random() {
+            return Math.floor(Math.random() * (4 - 1 + 1)) + 0;
+        }
+
+        function reset() {
+            $(".city").each(function(index) {
+                y[index] = 0;
+
+                $(this).animate({
+                    marginLeft: "0px"
+                });
+            });
+        }
+        
+    </script>
+    
+</body>
+</html>
